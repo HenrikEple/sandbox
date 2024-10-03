@@ -78,13 +78,32 @@
                                 size: 16, // Increase font size
                                 weight: 'bold', // Make the labels bold
                             },
+                            padding: 10, // Reduce this to move labels closer
                             color: '#333' // Optional: Change label color if needed
                         }
                     }
                 },
-                maintainAspectRatio: true  // Maintain the aspect ratio
+                maintainAspectRatio: true,  // Maintain the aspect ratio
+                layout: {
+                    padding: {
+                        top: 0,
+                        bottom: 0   // Reduce the top padding to move the legend closer to the chart
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 12  // Adjust the legend label font size if necessary
+                            },
+                            padding: 10 // You can reduce the padding between the legend items as well
+                        }
+                    }
+                }
             }
         };
+
 
         const partnerRadarChart = new Chart(ctx, config);
     </script>
