@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Chart with High-Contrast Colors</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Ensure the canvas fits within the page layout */
+        canvas {
+            max-width: 100%;
+            height: auto;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <canvas id="partnerRadarChart"></canvas>
+    </div>
+
+    <script>
+        // Function to calculate the total area (sum of scores)
+        const calculateArea = (data) => data.reduce((sum, value) => sum + value, 0);
+
+        // Define static high-contrast colors
+        const colors = [
+            { bg: 'rgba(255, 99, 132, 0.2)', border: 'rgba(255, 99, 132, 1)', point: 'rgba(255, 99, 132, 1)' },  // Red
+            { bg: 'rgba(54, 162, 235, 0.2)', border: 'rgba(54, 162, 235, 1)', point: 'rgba(54, 162, 235, 1)' },  // Blue
+            { bg: 'rgba(75, 192, 192, 0.2)', border: 'rgba(75, 192, 192, 1)', point: 'rgba(75, 192, 192, 1)' },  // Teal
+            { bg: 'rgba(255, 206, 86, 0.2)', border: 'rgba(255, 206, 86, 1)', point: 'rgba(255, 206, 86, 1)' },  // Yellow
+            { bg: 'rgba(153, 102, 255, 0.2)', border: 'rgba(153, 102, 255, 1)', point: 'rgba(153, 102, 255, 1)' }  // Purple
+        ];
+
+        // Define the data for each partner
+        const partnerData = [
+            { label: 'Ecomitize', data: [1, 8.3, 5.3, 7.5] },
+            { label: 'Woolman', data: [2.5, 9, 5.7, 6.5] },
+            { label: 'Signifly', data: [5, 9.3, 8.3, 6.5] },
+            { label: 'D.Tails', data: [6, 9.3, 9, 7.5] },
+            { label: 'Newcommerce', data: [10, 8.7, 9.7, 5.5] }
+        ];
+
+        const ctx = document.getElementById('partnerRadarChart').getContext('2d');
+
+        const data = {
+            labels: ['Local Presence', 'Technical Competence', 'Cultural/Structural Match', 'References'],
+            datasets: partnerData.map((partner, index) => ({
+                label: `${partner.label} (Area: ${calculateArea(partner.data).toFixed(1)})`,
+                data: partner.data,
+                fill: true,
+                backgroundColor: colors[index].bg,
+                borderColor: colors[index].border,
+                pointBackgroundColor: colors[index].point,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: colors[index].border
+            }))
+        };
+
+        const config = {
+            type: 'radar',
+            data: data,
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        ticks: {
+                            beginAtZero: true,
+                            max: 10
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 16, // Increase font size
+                                weight: 'bold', // Make the labels bold
+                            },
+                            color: '#333' // Optional: Change label color if needed
+                        }
+                    }
+                },
+                maintainAspectRatio: true  // Maintain the aspect ratio
+            }
+        };
+
+        const partnerRadarChart = new Chart(ctx, config);
+    </script>
+</body>
+</html>
